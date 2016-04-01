@@ -7,9 +7,11 @@
 <link rel="stylesheet" type="text/css" href="logo.css">
 <link rel="stylesheet" type="text/css" href="artiklCSS.css">
 <link rel="stylesheet" type="text/css" href="kontaktCSS.css">
+<link rel="stylesheet" type="text/css" href="ponudaCSS.css">
+<script src="validacijaK.js"></script>
 <title> Kontakt | Iznajmljivanje</title>
 </head>
-<body>
+<body onload="pokreni();">
 <div class="pozadina">
   <!--<img src="pozadina.jpeg" width="100%" height="100%"/>-->
 </div>
@@ -41,20 +43,24 @@
 </nav>
 <div class="tijelo">
 <div id="one">
-   <form>
+   <div class="divAbcd">
+<form>
   <table>
- 
+  <tr>
+  <td> <br> </td>
+  </tr>
  <tr>
-  <td><input type="text" placeholder="Username" class="tekst"> <br><br></td>
+  <td> &nbsp;<input type="text" placeholder="Username" class="tekst"> <br><br></td>
   </tr>
   <tr>
-  <td><input type="password" placeholder="Password" class="tekst"><br><br></td>
+  <td> &nbsp;<input type="password" placeholder="Password" class="tekst"><br><br></td>
  </tr>
  <tr>
- <td class="poravnajPs"><input type="submit" value="Login" class="dugme2"> </td>
+ <td class="loginDugme"><input type="submit" value="Login" class="dugme2"> </td>
  </tr>
  </table>
-  </form>
+</form>
+</div>
 
 </div>
 
@@ -64,7 +70,7 @@
   </div>
 <div class="veliki">
 
-<form>
+<form id="formaK">
 <table class="tabela">
 
 
@@ -73,28 +79,28 @@
   </tr>
   <tr>
   <td class="zaCelije"> <label class="labela"> Ime i prezime: </label></td>
-  <td> <input type="text" class="tekstK" placeholder="Ime Prezime"></td>
+  <td> <input type="text" class="tekstK" placeholder="" id="imePrezimeTxt"></td>
   </tr>
   <tr>
   <td colspan="2"><br> </td>
   </tr>
   <tr>
   <td class="zaCelije"> <label class="labela"> Email: </label></td>
-  <td> <input type="email" name="email" class="tekstK" placeholder="primjer@email.com"></td>
+  <td> <input type="email" name="email" class="tekstK" placeholder="primjer@email.com" id="emailKTxt"></td>
   </tr>
   <tr>
   <td colspan="2"><br> </td>
   </tr>
   <tr>
   <td class="zaCelije"> <label class="labela"> Telefon: </label></td>
-  <td> <input type="tel" name="usrtel" class="tekstK" placeholder="061/123-123"></td>
+  <td> <input type="tel" name="usrtel" class="tekstK" placeholder="+38761-123-123" id="phoneKTxt"></td>
   </tr>
   <tr>
   <td colspan="2"><br> </td>
   </tr>
    <tr>
   <td class="zaCelije"> <label class="labela"> Komentar: </label></td>
-  <td> <textarea class="multiline" placeholder="Komentar..."></textarea></td>
+  <td> <textarea class="multiline" placeholder="Komentar..." id="komentarTxt"></textarea></td>
   </tr>
   <tr>
   <td colspan="2"><br> </td>
@@ -105,7 +111,7 @@
   </tr>
    <tr>
   <td> </td>
-  <td class="poravnajPs"> <input type="submit" value="Pošalji" class="dugme2"></td>
+  <td class="poravnajPs"> <input type="button" value="Pošalji" class="dugme2" onclick="submituj();"></td>
   </tr>
 
  </table>
@@ -114,7 +120,7 @@
 </div>
 
 <div id="three">
-<div class="divA">
+<div class="divAcc">
 <table>
 <tr>
 <td> <h2 class="labela"> Pratite nas na društvenim mrežama </h2> </td>
