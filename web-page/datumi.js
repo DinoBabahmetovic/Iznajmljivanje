@@ -74,7 +74,8 @@ function izmijeniVrijeme(){
     		for (var i = 0, len = elements.length; i < len; i++) {
     			//alert(datumiNovosti[i]);
     			x[i].style.display = "inline";
-    			if (((trenutni.getTime() - datumiNovosti[i].getTime())/1000) >=86400) x[i].style.display = "none";
+				var odPonoci = trenutni.getHours()*60*60 + trenutni.getMinutes()*60 + trenutni.getSeconds();
+    			if (((trenutni.getTime() - datumiNovosti[i].getTime())/1000) >=odPonoci) x[i].style.display = "none";
     			
     		}
         	
@@ -83,7 +84,11 @@ function izmijeniVrijeme(){
     		for (var i = 0, len = elements.length; i < len; i++) {
     			//alert(datumiNovosti[i]);
     			x[i].style.display = "inline";
-    			if (((trenutni.getTime() - datumiNovosti[i].getTime())/1000) >=604800) x[i].style.display = "none";
+				var pomocna;
+				if (trenutni.getDay()==0) pomocna=6;
+				else pomocna = trenutni.getDay()-1;
+				var odPonedjeljka = pomocna*24*60*60 + trenutni.getHours()*60*60 + trenutni.getMinutes()*60 + trenutni.getSeconds();
+    			if (((trenutni.getTime() - datumiNovosti[i].getTime())/1000) >= odPonedjeljka) x[i].style.display = "none";
     			
     		}
         	
@@ -92,8 +97,7 @@ function izmijeniVrijeme(){
     		for (var i = 0, len = elements.length; i < len; i++) {
     			//alert(datumiNovosti[i]);
     			x[i].style.display = "inline";
-    			
-    			if (((trenutni.getTime() - datumiNovosti[i].getTime())/1000) >=2592000) x[i].style.display = "none";
+    			if (((trenutni.getTime() - datumiNovosti[i].getTime())/1000) >=odPrvog()) x[i].style.display = "none";
     			
     		}
         	
@@ -109,3 +113,15 @@ function izmijeniVrijeme(){
     	};
 	
 }
+
+ 			function odPrvog() {
+				var now = new Date().getTime(),
+					monthStart = new Date();
+
+					monthStart.setDate(1);
+					monthStart.setHours(0);
+					monthStart.setMinutes(0);
+					monthStart.setSeconds(0);
+					monthStart.setMilliseconds(0);
+					return Math.floor((now - monthStart.getTime()) / 1000);
+						}
