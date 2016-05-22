@@ -52,6 +52,10 @@
 	
 }
 
+
+
+
+
 .dugme3
 {
 	padding-top: 5px;
@@ -376,7 +380,7 @@ footer
 	width: 100%;
 	margin-left:-0.5%;
 }
-.datumVrijeme
+.datumVrijeme, .datumVrijemeNovo
 {
 		color:gray;
 	font-size: 0.55vw; /*bilo 12px*/
@@ -387,6 +391,7 @@ footer
 	width: 100%;
 	margin-left:-0.5%;
 }
+
 .linija
 {
 	width:93%;

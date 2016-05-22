@@ -1,15 +1,33 @@
 function izmijeniVrijeme(){
 	//alert("Page is loaded");
+
+	//bilo za one vec postavljene datume duse slatke
+	/*
 	var elements = document.getElementsByClassName("datumVrijeme");
 	var datumiNovosti = [];
 	var sec2 = 0.1;
 	for (var i = 0, len = elements.length; i < len; i++) {
 	 	var sada = new Date();
 	 	var temp = new Date();
-	 	temp.setTime(sada.getTime() - sec2*1000);
+	 	//var pomocni = new Date("May 20, 2016 01:15:00");
+	 	var pomocni = new Date("2016-05-20 14:55:47");
+	 	temp.setTime(pomocni.getTime() - sec2*1000);
 	 	var sec = (sada.getTime() - temp.getTime())/1000;
 	 	datumiNovosti.push(temp);
-	 
+	*/ 
+
+	var elements = document.getElementsByClassName("datumVrijemeNovo");
+	var datumiNovosti = [];
+	//var sec2 = 0.1;
+	for (var i = 0, len = elements.length; i < len; i++) {
+	 	var sada = new Date();
+	 	//var temp = new Date();
+	 	var pomocni = new Date(elements[i].innerHTML);
+	 	pomocni.setTime(pomocni.getTime() + (2*60*60*1000)); 
+	 	//var pomocni = new Date("2016-05-20 14:55:47");
+	 	//temp.setTime(pomocni.getTime() - sec2*1000);
+	 	var sec = (sada.getTime() - pomocni.getTime())/1000;
+	 	datumiNovosti.push(pomocni);
 	 	
    /* var dt = elements[i].innerHTML.split(/\-|\s/);
     var dat = new Date(dt.slice(0,3).reverse().join('/')+' '+dt[3]);
@@ -54,11 +72,11 @@ function izmijeniVrijeme(){
 		if (sed2 == 1) elements[i].innerHTML = 'Novost objavljena prije ' + sed2 + ' sedmicu';
 		else elements[i].innerHTML = 'Novost objavljena prije ' + sed2 + ' sedmice';
 	}
-	else elements[i].innerHTML = temp.toLocaleString();
-	if (i<2) sec2 += 1987;
+	else elements[i].innerHTML = pomocni.toLocaleString();
+	/*if (i<2) sec2 += 1987;
 	else if (i<6) sec2 += 116675;
 	else if (i<9) sec2 += 316324;
-	else sec2 += 29292929;
+	else sec2 += 29292929;*/
 	
 	
 
@@ -111,7 +129,34 @@ function izmijeniVrijeme(){
     		}
         	
     	};
-	
+
+    	
+
+var naslovi = document.getElementsByClassName("proba");
+for (var i = 0, len = naslovi.length; i < len; i++) {
+	if (naslovi[i].clientHeight>17)
+		{
+			while(naslovi[i].clientHeight>17) naslovi[i].innerHTML = naslovi[i].innerHTML.substring(0,naslovi[i].innerHTML.length-5);
+			naslovi[i].innerHTML = naslovi[i].innerHTML.substring(0,naslovi[i].innerHTML.length-3);
+			naslovi[i].innerHTML = naslovi[i].innerHTML.concat("...");
+
+		}
+}
+var spanovi = document.getElementsByClassName("bitanSpan");
+for (var i = 0, len = spanovi.length; i < len; i++) {
+	if (spanovi[i].clientHeight>80)
+		{
+			while(spanovi[i].clientHeight>80) spanovi[i].innerHTML = spanovi[i].innerHTML.substring(0,spanovi[i].innerHTML.length-5);
+			spanovi[i].innerHTML = spanovi[i].innerHTML.substring(0,spanovi[i].innerHTML.length-3);
+			spanovi[i].innerHTML = spanovi[i].innerHTML.concat("...");
+
+		}
+}
+
+
+
+
+
 }
 
  			function odPrvog() {

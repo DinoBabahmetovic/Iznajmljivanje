@@ -106,19 +106,31 @@
 {
 	width: 73%;
 	height: 180px;
-	background-color: #00cccc;
+	background-color: #ff8000;
 	border-style: solid;
-	border-color: #00cccc;
+	border-color: #ff8000;
 	border-radius: 3%; /*a bilo 5 px;*/
 	float: right;
 	margin-right: 12%;
 	margin-top:10px; /*a bilo 5px;*/
 }
-.divAbc:hover
+.divAbc2
+{
+	width: 73%;
+	height: 100px;
+	background-color: #ff8000;
+	border-style: solid;
+	border-color: #ff8000;
+	border-radius: 3%; /*a bilo 5 px;*/
+	float: right;
+	margin-right: 12%;
+	margin-top:10px; /*a bilo 5px;*/
+}
+.divAbc:hover, .divAbc2:hover
 {
 		box-shadow: 0 0 5px 3px #e1d5d5;
-		background-color: #92f6f7;
-		border-color: #92f6f7;
+		background-color: #ff9900;
+		border-color: #ff9900;
 }
 .divAbcd
 {
