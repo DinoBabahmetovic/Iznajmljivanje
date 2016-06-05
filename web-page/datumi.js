@@ -23,7 +23,7 @@ function izmijeniVrijeme(){
 	 	var sada = new Date();
 	 	//var temp = new Date();
 	 	var pomocni = new Date(elements[i].innerHTML);
-	 	pomocni.setTime(pomocni.getTime() + (2*60*60*1000)); 
+	 	//pomocni.setTime(pomocni.getTime() + (2*60*60*1000)); 
 	 	//var pomocni = new Date("2016-05-20 14:55:47");
 	 	//temp.setTime(pomocni.getTime() - sec2*1000);
 	 	var sec = (sada.getTime() - pomocni.getTime())/1000;

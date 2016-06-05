@@ -65,18 +65,35 @@ if(isset($_SESSION['username']))
         $username = $_SESSION['username'];
 
  else if (isset($_REQUEST['username'])) {
-        $niz = file("korisnici.csv");
-        
-        for ($i = 0; $i < count($niz); $i++) {
-          $info = explode(",", $niz[$i]);
+       // $niz = file("korisnici.csv");
+      $veza = new PDO("mysql:dbname=super;host=127.8.85.2;port=3306;charset=utf8", "adminLlQtIvf", "2GkRyFxj4ukA");
+     $veza->exec("set names utf8");
+     $rezultat = $veza->query("select autor_id, username, password from autor");
+     if (!$rezultat) {
+          $greska = $veza->errorInfo();
+          print "SQL greška: " . $greska[2];
+          exit();
+     }
+      foreach ($rezultat as $korisnik) {
+           if ($_REQUEST['username'] == $korisnik['username'] && $_REQUEST['password'] == $korisnik['password']){
+              $username = $_REQUEST['username'];
+              $_SESSION['username'] = $username;
+              header("Refresh:0");
+              break;
+           }
+         // print $vijest['naslov']." ".$vijest['tekst']." ".$vijest['autor']." ".date("d.m.Y. (h:i)", $vijest['vrijeme2'])."<br>";
+     }
+  
+       /* for ($i = 0; $i < count($niz); $i++) {
+         $info = explode(",", $niz[$i]);
 
             if ($_REQUEST['username'] == $info[0] && md5($_REQUEST['password']) == $info[1]){
               $username = $_REQUEST['username'];
             $_SESSION['username'] = $username;
             header("Refresh:0");
             break;
-            }      
-        }
+            }     
+        }*/
         
         if (!isset($_SESSION['username']))
             $flag = 1;
@@ -177,6 +194,67 @@ $flag=0;}
   Novosti
   </div>
 <?php
+  //  baza
+    $veza = new PDO("mysql:dbname=super;host=127.8.85.2;port=3306;charset=utf8", "adminLlQtIvf", "2GkRyFxj4ukA");
+    $veza->exec("set names utf8");
+    $rezultat = $veza->query("select n.naslov naslov, n.tekst tekst, n.vrijeme  vrijeme, a.username username from novost n, autor a where a.autor_id = n.autor_id");
+    if (!$rezultat) {
+          $greska = $veza->errorInfo();
+          print "SQL greška: " . $greska[2];
+          exit();
+     }
+     $rows = [];
+     $i = 0;
+ foreach ($rezultat as $novost)
+{
+    $rows[$i][0] = $novost['naslov'];
+    $rows[$i][1] = $novost['tekst'];
+    $rows[$i][2] = $novost['vrijeme'];
+    $rows[$i][3] = $novost['username'];
+    $i = $i+1;
+}
+     if ($flag2 == 0){
+  function date_compare($a, $b)
+{
+    $datumFormat = new DateTime($a[2]);
+    $result1 = $datumFormat->format('Y-m-d H:i:s');
+    $datumFormat = new DateTime($b[2]);
+    $result2 = $datumFormat->format('Y-m-d H:i:s');
+    $t1 = strtotime($result1);
+    $t2 = strtotime($result2);
+    return $t2 - $t1;
+}    
+usort($rows, 'date_compare');
+}
+ else if($flag2 == 1){
+  function custom_sort($a,$b) {
+           $a[0] = strtolower( $a[0]);
+           $b[0] = strtolower( $b[0]);
+          return $a[0]>$b[0];
+     }
+  // Sort the multidimensional array
+     usort($rows, 'custom_sort');
+     // Define the custom sort function
+     $flag2=0;
+ }
+    foreach ($rows as $novost) {
+    $datumFormat = new DateTime($novost[2]);
+    $result = $datumFormat->format('Y-m-d H:i:s');
+            print '<div class="divA">';
+    print '<div class="glupiFloat">';
+    print '<img class="slikino3" src="news-icon.png" alt="">';
+    print '</div>';
+    print '<div class="stil5">';
+    print '<b><div class="proba">'.$novost[0].'</div></b>';
+    print '<i><div class="datumVrijemeNovo">'.$result.'</div></i><hr class="linija" color="white" size="1.5vw">';
+    print '<div class="bitanSpan">'.$novost[1].'</div>';
+    print '<span class="autor">Autor: '.$novost[3].'</span><span><a href="opsirnije.php" class="dugme5">Više...</a></span>';
+    print '</div>';
+    print '</div>';  
+           }
+
+  //csv file 
+           /*
   $niz = file("novosti.csv");
   for ($i = 0; $i < count($niz); $i++){
     $niz[$i] = explode(",", $niz[$i]);
@@ -215,6 +293,7 @@ usort($niz, 'date_compare');
     print '</div>';
     print '</div>';
   }
+  */
 ?>
 <!--
 <div class="divA">

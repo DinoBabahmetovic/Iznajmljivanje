@@ -61,18 +61,35 @@ if(isset($_SESSION['username']))
         $username = $_SESSION['username'];
 
  else if (isset($_REQUEST['username'])) {
-        $niz = file("korisnici.csv");
-        
-        for ($i = 0; $i < count($niz); $i++) {
-          $info = explode(",", $niz[$i]);
+       // $niz = file("korisnici.csv");
+      $veza = new PDO("mysql:dbname=super;host=localhost;charset=utf8", "superuser", "superpass");
+     $veza->exec("set names utf8");
+     $rezultat = $veza->query("select autor_id, username, password from autor");
+     if (!$rezultat) {
+          $greska = $veza->errorInfo();
+          print "SQL greška: " . $greska[2];
+          exit();
+     }
+      foreach ($rezultat as $korisnik) {
+           if ($_REQUEST['username'] == $korisnik['username'] && $_REQUEST['password'] == $korisnik['password']){
+              $username = $_REQUEST['username'];
+              $_SESSION['username'] = $username;
+              header("Refresh:0");
+              break;
+           }
+         // print $vijest['naslov']." ".$vijest['tekst']." ".$vijest['autor']." ".date("d.m.Y. (h:i)", $vijest['vrijeme2'])."<br>";
+     }
+  
+       /* for ($i = 0; $i < count($niz); $i++) {
+         $info = explode(",", $niz[$i]);
 
             if ($_REQUEST['username'] == $info[0] && md5($_REQUEST['password']) == $info[1]){
               $username = $_REQUEST['username'];
             $_SESSION['username'] = $username;
             header("Refresh:0");
             break;
-            }      
-        }
+            }     
+        }*/
         
         if (!isset($_SESSION['username']))
             $flag = 1;

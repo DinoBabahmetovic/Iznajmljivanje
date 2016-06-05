@@ -6,7 +6,46 @@ if(!isset($_SESSION['username'])) {
 }
 $flag=0;
 if (isset($_REQUEST['Sacuvaj']) && $_REQUEST['Sacuvaj'] == 'Sačuvaj') {
-            $imenik = file("novosti.csv"); 
+            //baza
+            $id = 0;
+            $veza = new PDO("mysql:dbname=super;host=127.8.85.2;port=3306;charset=utf8", "adminLlQtIvf", "2GkRyFxj4ukA");
+            $veza->exec("set names utf8");
+            $rezultat = $veza->query("select autor_id, username, password from autor");
+            if (!$rezultat) {
+            $greska = $veza->errorInfo();
+            print "SQL greška: " . $greska[2];
+            exit();
+            }
+            foreach ($rezultat as $korisnik) {
+            if ($_SESSION['username'] == $korisnik['username']){ $id = $korisnik['autor_id'];}
+            }
+
+            $veza = new PDO("mysql:dbname=super;host=127.8.85.2;port=3306;charset=utf8", "adminLlQtIvf", "2GkRyFxj4ukA");
+            $veza->exec("set names utf8");
+            $text = htmlEntities($_REQUEST['naslovNovosti'], ENT_QUOTES);
+            $text2 = htmlEntities($_REQUEST['tekstNovosti'], ENT_QUOTES);
+            $text = str_replace(',', '&#44;', $text); 
+            $text2 = str_replace(',', '&#44;',$text2); 
+            $text2 = str_replace(array("\r\n", "\n\r", "\r", "\n"), "<br>", $text2);
+            $cekirano = 0;
+            if (isset($_REQUEST['potvrdaKomentara']) && $_REQUEST['potvrdaKomentara'] == 'true') {
+              $cekirano = 1;
+            }
+            date_default_timezone_set("Europe/Sarajevo");
+            $timestamp = date('Y-m-d G:i:s');
+            $statement = $veza->prepare("INSERT INTO novost (naslov, tekst, autor_id, vrijeme, kod, telefon, komentari ) VALUES (:nas, :tex, :aut, :vri, :ko, :tel, :kom)");
+            $statement->execute(array(
+              "nas" => $text,
+              "tex" => $text2,
+              "aut" => $id,
+              "vri" => $timestamp,
+              "ko" => $_REQUEST['kodNovosti'],
+              "tel" => $_REQUEST['telefonNovosti'],
+              "kom" => $cekirano
+                ));
+            $flag=1;        
+            //csv
+            /*$imenik = file("novosti.csv"); 
             $text = htmlEntities($_REQUEST['naslovNovosti'], ENT_QUOTES);
             $text2 = htmlEntities($_REQUEST['tekstNovosti'], ENT_QUOTES);
             $text = str_replace(',', '&#44;', $text); 
@@ -15,7 +54,7 @@ if (isset($_REQUEST['Sacuvaj']) && $_REQUEST['Sacuvaj'] == 'Sačuvaj') {
             $novi = $text.",".$text2.",".date('Y-m-d H:i:s').",".$_REQUEST['kodNovosti'].",".$_REQUEST['telefonNovosti']."\n";
             array_push($imenik, $novi);
             file_put_contents("novosti.csv", $imenik);
-            $flag=1;             
+            $flag=1;*/             
         }
 ?>
 <!DOCTYPE html>
@@ -113,6 +152,13 @@ $flag=0;}
   <tr>
   <td class="zaCelije"> <label class="labela"> Broj telefona: </label></td>
   <td> <input type="text" name ="telefonNovosti" class="tekstK" placeholder="+387-61-123-456" id="telefonTxt"/></td>
+  </tr>
+  <tr>
+  <td> </td>
+  </tr>
+  <tr>
+  <td class="zaCelije"> &nbsp;</td>
+  <td class="tekstMali"><input type="checkbox" name="potvrdaKomentara" class="tekstRe" id="agreeCheck" value="true" checked> *Otvori novost za komentarisanje</td>
   </tr>
   <tr>
   <td colspan="2"><br> </td>

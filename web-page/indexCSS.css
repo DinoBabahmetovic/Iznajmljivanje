@@ -380,7 +380,7 @@ footer
 	width: 100%;
 	margin-left:-0.5%;
 }
-.datumVrijeme, .datumVrijemeNovo
+.datumVrijeme, .datumVrijemeNovo, .autor
 {
 		color:gray;
 	font-size: 0.55vw; /*bilo 12px*/
